@@ -30,18 +30,18 @@ lang/en.lua
 lang/$(language).lua
 
 config.lua
-header.lua
+;header.lua
 
 reticles/arrow.lua
 reticles/elastic-arrows.lua
 CrownPointerThing.lua
 CrownPointerThing.xml
 
-function/Error.lua
-function/Color.lua
+;function/Error.lua
+;function/Color.lua
 function/LAM2Panel.lua
-function/uiLoop.lua
-TeamFormation.lua
-TeamFormation.xml
+;function/uiLoop.lua
+;TeamFormation.lua
+;TeamFormation.xml
 
-Bindings.xml
+;Bindings.xml

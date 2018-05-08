@@ -2,7 +2,7 @@
     <Controls>
         <TopLevelControl name="ProvisionsTeamFormation">
             <OnInitialized>
-                TeamFormation_OnInitialized()
+                <!-- TeamFormation_OnInitialized() -->
             </OnInitialized>
         </TopLevelControl>
     </Controls>

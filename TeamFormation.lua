@@ -24,9 +24,9 @@ local function TeamFormation_OnAddOnLoad(eventCode, addOnName)
 	CrownPointerThing.EVENT_ADD_ON_LOADED(eventCode, addOnName)
 	ProvTF.vars = ZO_SavedVars:NewAccountWide("ProvTFSV", 1, nil, ProvTF.defaults)
 
-	SLASH_COMMANDS["/tf"] = function()
-		LAM2:OpenToPanel(ProvTF.CPL)
-	end
+	-- SLASH_COMMANDS["/tf"] = function()
+	-- 	LAM2:OpenToPanel(ProvTF.CPL)
+	-- end
 
 	ProvTF.UI = WINDOW_MANAGER:CreateControl(nil, GuiRoot, CT_TOPLEVELCONTROL)
 	ProvTF.UI:SetMouseEnabled(false)

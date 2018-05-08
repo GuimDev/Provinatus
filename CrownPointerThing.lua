@@ -1,6 +1,6 @@
 CrownPointerThing = {}
 
-CrownPointerThing.name = ProvTF.name
+CrownPointerThing.name = "Provinatus"
 
 CrownPointerThing.reticle = ArrowReticle
 
@@ -17,6 +17,7 @@ end
 
 function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
+  -- TeamFormation_createLAM2Panel()
   EVENT_MANAGER:RegisterForEvent(
     CrownPointerThing.name,
     EVENT_PLAYER_ACTIVATED,

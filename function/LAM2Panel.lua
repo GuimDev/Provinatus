@@ -46,245 +46,28 @@ end
 function TeamFormation_createLAM2Panel()
 	local panelData = {
 		type = "panel",
-		name = ProvTF.namePublic,
-		displayName = ProvTF.nameColor,
-		author = ProvTF.author,
+		name = "Provinatus",
+		displayName = "Provinatus (color)",
+		author = "Provinatus & Albino Python",
 		slashCommand = "/provinatus",
 		version = "{{**DEVELOPMENTVERSION**}}",
 		registerForRefresh = true,
-		registerForDefaults = true,
-		resetFunc = function()
-			ProvTF.vars = nil
-			ProvTF.vars = ProvTF.defaults
-			ProvTF.vars.jRules = nil
-			ProvTF.vars.jRules = {}
+		registerForDefaults = true
+		-- resetFunc = function()
+		-- 	ProvTF.vars = nil
+		-- 	ProvTF.vars = ProvTF.defaults
+		-- 	ProvTF.vars.jRules = nil
+		-- 	ProvTF.vars.jRules = {}
 
-			ProvTF.UI:SetAnchor(CENTER, GuiRoot, CENTER, ProvTF.vars.posx, ProvTF.vars.posy)
-			TeamFormation_SetHidden(not ProvTF.vars.enabled)
+		-- 	ProvTF.UI:SetAnchor(CENTER, GuiRoot, CENTER, ProvTF.vars.posx, ProvTF.vars.posy)
+		-- 	TeamFormation_SetHidden(not ProvTF.vars.enabled)
 
-			TeamFormation_ResetRefreshRate()
-			ResetCrownPointer()
-		end
+		-- 	TeamFormation_ResetRefreshRate()
+		-- 	ResetCrownPointer()
+		-- end
 	}
 
 	local optionsData = {
-		{
-			type = "description",
-			text = GetString(SI_TF_DESC_TEAMFORMATION)
-		},
-		{
-			type = "checkbox",
-			name = GetString(SI_TF_SETTING_ENABLED),
-			tooltip = GetString(SI_TF_SETTING_ENABLED_TOOLTIP),
-			getFunc = function()
-				return ProvTF.vars.enabled
-			end,
-			setFunc = function(value)
-				ProvTF.vars.enabled = value
-				TeamFormation_SetHidden(not ProvTF.vars.enabled)
-			end,
-			width = "full"
-		},
-		{
-			type = "description",
-			text = GetString(SI_TF_SETTING_SHOWNOW_TOOLTIP),
-			width = "half"
-		},
-		{
-			type = "button",
-			name = GetString(SI_TF_SETTING_SHOWNOW),
-			tooltip = GetString(SI_TF_SETTING_SHOWNOW_TOOLTIP),
-			func = function()
-				if ProvTF.vars.enabled then
-					TeamFormation_SetHidden(false)
-				end
-			end,
-			width = "half"
-		},
-		{
-			type = "submenu",
-			name = GetString(SI_TF_SETTING_SIZEOPTIONS),
-			controls = {
-				[1] = {
-					type = "description",
-					text = GetString(SI_TF_SETTING_SIZEOPTIONS_TOOLTIP)
-				},
-				[2] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_X),
-					tooltip = GetString(SI_TF_SETTING_X_TOOLTIP),
-					min = -zo_round(GuiRoot:GetWidth() / 2),
-					max = zo_round(GuiRoot:GetWidth() / 2),
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.posx
-					end,
-					setFunc = function(value)
-						ProvTF.vars.posx = value
-						ProvTF.UI:SetAnchor(CENTER, GuiRoot, CENTER, ProvTF.vars.posx, ProvTF.vars.posy)
-					end,
-					width = "half"
-				},
-				[3] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_Y),
-					tooltip = GetString(SI_TF_SETTING_Y_TOOLTIP),
-					min = -zo_round(GuiRoot:GetHeight() / 2),
-					max = zo_round(GuiRoot:GetHeight() / 2),
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.posy
-					end,
-					setFunc = function(value)
-						ProvTF.vars.posy = value
-						ProvTF.UI:SetAnchor(CENTER, GuiRoot, CENTER, ProvTF.vars.posx, ProvTF.vars.posy)
-					end,
-					width = "half"
-				},
-				[4] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_WIDTH),
-					tooltip = GetString(SI_TF_SETTING_WIDTH_TOOLTIP),
-					min = 20,
-					max = zo_round(GuiRoot:GetWidth()),
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.width
-					end,
-					setFunc = function(value)
-						ProvTF.vars.width = value
-						ProvTF.UI:SetDimensions(ProvTF.vars.width, ProvTF.vars.height)
-					end,
-					width = "half"
-				},
-				[5] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_HEIGHT),
-					tooltip = GetString(SI_TF_SETTING_HEIGHT_TOOLTIP),
-					min = 20,
-					max = zo_round(GuiRoot:GetHeight()),
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.height
-					end,
-					setFunc = function(value)
-						ProvTF.vars.height = value
-						ProvTF.UI:SetDimensions(ProvTF.vars.width, ProvTF.vars.height)
-					end,
-					width = "half"
-				}
-			}
-		},
-		{
-			type = "submenu",
-			name = GetString(SI_TF_SETTING_FOCUSOPTIONS),
-			controls = {
-				[1] = {
-					type = "description",
-					text = GetString(SI_TF_SETTING_FOCUSOPTIONS_TOOLTIP)
-				},
-				[2] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_REFRESHRATE),
-					tooltip = GetString(SI_TF_SETTING_REFRESHRATE_TOOLTIP),
-					warning = GetString(SI_TF_SETTING_REFRESHRATE_WARNING),
-					min = 10,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.refreshRate
-					end,
-					setFunc = function(value)
-						ProvTF.vars.refreshRate = value
-
-						TeamFormation_ResetRefreshRate()
-					end,
-					width = "full"
-				},
-				[3] = {
-					type = "dropdown",
-					name = GetString(SI_TF_SETTING_SHAPE),
-					tooltip = GetString(SI_TF_SETTING_SHAPE_TOOLTIP),
-					choices = {GetString(SI_TF_SETTING_SHAPE_RECTANGULAR), GetString(SI_TF_SETTING_SHAPE_CIRCULAR)},
-					getFunc = function()
-						return (ProvTF.vars.circle and GetString(SI_TF_SETTING_SHAPE_CIRCULAR) or
-							GetString(SI_TF_SETTING_SHAPE_RECTANGULAR))
-					end,
-					setFunc = function(var)
-						ProvTF.vars.circle = (var == GetString(SI_TF_SETTING_SHAPE_CIRCULAR))
-					end
-				},
-				[4] = {
-					type = "checkbox",
-					name = GetString(SI_TF_SETTING_CAMROTATION),
-					tooltip = GetString(SI_TF_SETTING_CAMROTATION_TOOLTIP),
-					getFunc = function()
-						return ProvTF.vars.camRotation
-					end,
-					setFunc = function(value)
-						ProvTF.vars.camRotation = value
-					end,
-					width = "full"
-				},
-				[5] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_SCALE),
-					tooltip = GetString(SI_TF_SETTING_SCALE_TOOLTIP),
-					min = 10,
-					max = 200,
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.scale
-					end,
-					setFunc = function(value)
-						ProvTF.vars.scale = value
-					end,
-					width = "full"
-				},
-				[6] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_LOGDIST) .. " (%)",
-					tooltip = GetString(SI_TF_SETTING_LOGDIST_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.logdist * 100
-					end,
-					setFunc = function(value)
-						ProvTF.vars.logdist = value / 100
-					end,
-					width = "full"
-				},
-				[7] = {
-					type = "slider",
-					name = GetString(SI_TF_SETTING_CARDINAL) .. " (%)",
-					tooltip = GetString(SI_TF_SETTING_CARDINAL_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return ProvTF.vars.cardinal * 100
-					end,
-					setFunc = function(value)
-						ProvTF.vars.cardinal = value / 100
-					end,
-					width = "full"
-				},
-				[8] = {
-					type = "checkbox",
-					name = GetString(SI_TF_SETTING_SIEGE),
-					tooltip = GetString(SI_TF_SETTING_SIEGE_TOOLTIP),
-					getFunc = function()
-						return ProvTF.vars.siege
-					end,
-					setFunc = function(value)
-						ProvTF.vars.siege = value
-					end,
-					width = "full"
-				}
-			}
-		},
 		{
 			type = "submenu",
 			name = "Player Icon Settings",
@@ -472,6 +255,7 @@ function TeamFormation_createLAM2Panel()
 		end
 	end
 
-	ProvTF.CPL = LAM2:RegisterAddonPanel(ProvTF.name .. "LAM2Panel", panelData)
-	LAM2:RegisterOptionControls(ProvTF.name .. "LAM2Panel", optionsData)
+	-- TODO save reference to panel so we can get to it from a slash command elsewhere.
+	LAM2:RegisterAddonPanel("Provinatus" .. "LAM2Panel", panelData)
+	LAM2:RegisterOptionControls("Provinatus" .. "LAM2Panel", optionsData)
 end
