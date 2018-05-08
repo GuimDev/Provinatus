@@ -16,7 +16,7 @@ function ArrowReticle.UpdateTexture(DistanceToTarget, DX, DY, AngleToTarget, Lin
     Arrow:SetAlpha(0)
     return
   end
-  
+
   if IsUnitSoloOrGroupLeader("player") or ZO_ReticleContainer:IsHidden() or IsActiveWorldBattleground() then
     Arrow:SetAlpha(0)
     if not CrownPointerThing.SavedVars.Debug then
@@ -32,7 +32,7 @@ function ArrowReticle.UpdateTexture(DistanceToTarget, DX, DY, AngleToTarget, Lin
     Linear = CrownPointerThing.SavedVars.DebugSettings.Reticle.Linear
     AbsoluteLinear = CrownPointerThing.SavedVars.DebugSettings.Reticle.AbsoluteLinear
   end
-  
+
   -- Why didn't I write a comment here?
   local AbsAngleToTarget = math.abs(AngleToTarget)
   local R = AbsAngleToTarget / 2

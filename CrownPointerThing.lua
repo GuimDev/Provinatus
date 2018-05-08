@@ -17,7 +17,6 @@ end
 
 function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
-  -- TeamFormation_createLAM2Panel()
   EVENT_MANAGER:RegisterForEvent(
     CrownPointerThing.name,
     EVENT_PLAYER_ACTIVATED,
@@ -43,7 +42,6 @@ function CrownPointerThing.onUpdate()
   local Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
-
   CrownPointerThing.reticle.UpdateTexture(D, DX, DY, Angle, Linear, AbsoluteLinear)
 end
 
@@ -52,3 +50,5 @@ function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
     CrownPointerThing:Initialize()
   end
 end
+
+EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_ADD_ON_LOADED, CrownPointerThing.EVENT_ADD_ON_LOADED)
