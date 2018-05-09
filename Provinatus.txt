@@ -6,14 +6,34 @@
 ## APIVersion: 100022 100023
 ## Version: {{**DEVELOPMENTVERSION**}}
 
+;Setting menu dependencies
+lib/LibAddonMenu-2.0/LibStub/LibStub.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/panel.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/submenu.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/button.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/checkbox.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/colorpicker.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/custom.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/description.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/dropdown.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/editbox.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/header.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/slider.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0/controls/texture.lua
+
+;Language files
 lang/en.lua
 lang/$(language).lua
 
+;Addon settings
 config.lua
 
+;Provinatus settings menu
+function/LAM2Panel.lua
+
+;Reticle that point to group leader
 reticles/arrow.lua
 reticles/elastic-arrows.lua
 CrownPointerThing.lua
 CrownPointerThing.xml
-
-;function/LAM2Panel.lua

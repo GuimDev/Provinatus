@@ -27,6 +27,7 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   CrownPointerThing.reticle.Initialize()
+  ProvinatusCreateLAM2Panel()  
 end
 
 function CrownPointerThing.onUpdate()

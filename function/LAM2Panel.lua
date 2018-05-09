@@ -1,26 +1,3 @@
-local function colorizePseudo(rgb, pseudo)
-	local color = ZO_ColorDef:New(unpack(rgb))
-	return "|c" .. color:ToHex() .. "|t24:24:EsoUI/Art/Miscellaneous/Gamepad/gp_charNameIcon.dds:inheritcolor|t " .. pseudo
-end
-
-local function TeamFormation_mapChoices(func, array)
-	local new_array = {}
-
-	if not array then
-		return array
-	end
-
-	for k, v in pairs(array) do
-		table.insert(new_array, func(v, k))
-	end
-
-	return new_array
-end
-
-local function TeamFormation_mapJRULES()
-	return TeamFormation_mapChoices(colorizePseudo, ProvTF.vars.jRules)
-end
-
 local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.CrownPointer.Enabled = ProvinatusConfig.CrownPointer.Enabled
 	CrownPointerThing.SavedVars.CrownPointer.Alpha = ProvinatusConfig.CrownPointer.Alpha
@@ -30,8 +7,7 @@ local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.PlayerIconSettings.CrownAlpha = ProvinatusConfig.PlayerIconSettings.CrownAlpha
 	CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha = ProvinatusConfig.PlayerIconSettings.CrownDeadAlpha
 	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownAlpha
-	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha =
-		ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
+	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
 end
 
 local function SetDebug(value)
@@ -43,7 +19,7 @@ local function SetDebug(value)
 	end
 end
 
-function TeamFormation_createLAM2Panel()
+function ProvinatusCreateLAM2Panel()
 	local panelData = {
 		type = "panel",
 		name = "Provinatus",
@@ -52,97 +28,13 @@ function TeamFormation_createLAM2Panel()
 		slashCommand = "/provinatus",
 		version = "{{**DEVELOPMENTVERSION**}}",
 		registerForRefresh = true,
-		registerForDefaults = true
-		-- resetFunc = function()
-		-- 	ProvTF.vars = nil
-		-- 	ProvTF.vars = ProvTF.defaults
-		-- 	ProvTF.vars.jRules = nil
-		-- 	ProvTF.vars.jRules = {}
-
-		-- 	ProvTF.UI:SetAnchor(CENTER, GuiRoot, CENTER, ProvTF.vars.posx, ProvTF.vars.posy)
-		-- 	TeamFormation_SetHidden(not ProvTF.vars.enabled)
-
-		-- 	TeamFormation_ResetRefreshRate()
-		-- 	ResetCrownPointer()
-		-- end
+		registerForDefaults = true,
+		resetFunc = function()
+			ResetCrownPointer()
+		end
 	}
-
+  
 	local optionsData = {
-		{
-			type = "submenu",
-			name = "Player Icon Settings",
-			controls = {
-				{
-					type = "description",
-					text = GetString(LEADER_ICON_SETTINGS)
-				},
-				{
-					type = "slider",
-					name = GetString(LEADER_ICON_OPACITY),
-					tooltip = GetString(LEADER_ICON_OPACITY_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.PlayerIconSettings.CrownAlpha * 100
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.PlayerIconSettings.CrownAlpha = value / 100
-					end,
-					width = "half"
-				},
-				{
-					type = "slider",
-					name = GetString(LEADER_DEAD_ICON_OPACITY),
-					tooltip = GetString(LEADER_DEAD_ICON_OPACITY_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha * 100
-					end,
-					setFunc = function(value)
-						d(CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha)
-						CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha = value / 100
-					end,
-					width = "half"
-				},
-				{
-					type = "description",
-					text = GetString(TEAMMATE_ICON_SETTINGS)
-				},
-				{
-					type = "slider",
-					name = GetString(NON_LEADER_ICON_OPACITY),
-					tooltip = GetString(NON_LEADER_ICON_OPACITY_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha * 100
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha = value / 100
-					end,
-					width = "half"
-				},
-				{
-					type = "slider",
-					name = GetString(DEAD_PLAYER_OPACITY),
-					tooltip = GetString(DEAD_PLAYER_OPACITY_TOOLTIP),
-					min = 0,
-					max = 100,
-					step = 1,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha * 100
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha = value / 100
-					end,
-					width = "half"
-				}
-			}
-		},
 		{
 			type = "submenu",
 			name = GetString(CROWN_POINTER_THING),
@@ -238,24 +130,8 @@ function TeamFormation_createLAM2Panel()
 		}
 	}
 
-	SLASH_COMMANDS["/tfrainbow"] = function()
-		local r, g, b, pseudo
-		for i = 1, 24 do
-			pseudo = GetUnitName("group" .. i)
-			if pseudo ~= "" then
-				r, g, b = HSV2RGB(0.1 * ((i - 1) % 10), 0.5, 1.0)
-				ProvTF.vars.jRules[pseudo] = {r, g, b}
-				d(colorizePseudo({r, g, b}, pseudo))
-			end
-		end
-
-		local ctrl_dropdown = WINDOW_MANAGER:GetControlByName("ProvTF#jRulesList")
-		if ctrl_dropdown then
-			ctrl_dropdown:UpdateChoices(TeamFormation_mapJRULES())
-		end
-	end
-
-	-- TODO save reference to panel so we can get to it from a slash command elsewhere.
+  -- TODO save reference to panel so we can get to it from a slash command elsewhere.
+  local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 	LAM2:RegisterAddonPanel("Provinatus" .. "LAM2Panel", panelData)
 	LAM2:RegisterOptionControls("Provinatus" .. "LAM2Panel", optionsData)
 end
