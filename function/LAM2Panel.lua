@@ -7,7 +7,8 @@ local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.PlayerIconSettings.CrownAlpha = ProvinatusConfig.PlayerIconSettings.CrownAlpha
 	CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha = ProvinatusConfig.PlayerIconSettings.CrownDeadAlpha
 	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownAlpha
-	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
+	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha =
+		ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
 end
 
 local function SetDebug(value)
@@ -33,7 +34,7 @@ function ProvinatusCreateLAM2Panel()
 			ResetCrownPointer()
 		end
 	}
-  
+
 	local optionsData = {
 		{
 			type = "submenu",
@@ -123,15 +124,64 @@ function ProvinatusCreateLAM2Panel()
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+					end
+				},
+				{
+					-- TODO strings file
+					type = "checkbox",
+					name = "Set Crown Position",
+					tooltip = "Overrides 'Crown Pointer direction' setting",
+					getFunc = function()
+						return CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride = value
+					end,
+					width = "full"
+				},
+				{
+					type = "slider",
+					name = "Set Crown X",
+					tooltip = GetString(CROWN_POINTER_DIRECTION_TOOLTIP),
+					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
+					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
+					step = 1 / 1000,
+					getFunc = function()
+						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.Tx))
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.DebugSettings.Tx = value
+					end,
+					width = "half",
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+					end
+				},
+				{
+					type = "slider",
+					name = "Set Crown Y",
+					tooltip = GetString(CROWN_POINTER_DIRECTION_TOOLTIP),
+					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
+					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
+					step = 1 / 1000,
+					getFunc = function()
+						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.Ty))
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.DebugSettings.Ty = value
+					end,
+					width = "half",
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug  or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				}
 			}
 		}
 	}
 
-  -- TODO save reference to panel so we can get to it from a slash command elsewhere.
-  local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
+	-- TODO save reference to panel so we can get to it from a slash command elsewhere.
+	local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 	LAM2:RegisterAddonPanel("Provinatus" .. "LAM2Panel", panelData)
 	LAM2:RegisterOptionControls("Provinatus" .. "LAM2Panel", optionsData)
 end

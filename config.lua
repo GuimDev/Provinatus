@@ -31,10 +31,14 @@ ProvinatusConfig = {
   },
   Debug = false,
   DebugSettings = {
+    -- If enabled, allows you to set crown position on map instead of just setting the angle.
+    CrownPositionOverride = false,
+    -- Target x position on the map
+    TargetX = 0.5,
+    -- Target y position on the map
+    TargetY = 0.5,
     Reticle = {
       DistanceToTarget = 0,
-      DX = 0,
-      DY = 0,
       AngleToTarget = 0.0,
       Linear = 0,
       AbsoluteLinear = 0

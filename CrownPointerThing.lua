@@ -30,20 +30,34 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   ProvinatusCreateLAM2Panel()  
 end
 
+-- Gets target position or overrides with debug settings.
+local function GetTargetPositionfoo(leader)
+  local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(leader)
+  if CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug then
+    TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
+    TargetY = CrownPointerThing.SavedVars.DebugSettings.TargetY
+    TargetHeading = 0
+  end
+  
+  return TargetX, TargetY, TargetHeading
+end
+
 function CrownPointerThing.onUpdate()
   local leader = GetGroupLeaderUnitTag()
-  local Px, Py, Ph = GetMapPlayerPosition("player")
-  local Tx, Ty, Th = GetMapPlayerPosition(leader)
+  local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
+  local TargetX, TargetY, TargetHeading = GetTargetPositionfoo(leader)
   local Heading = GetPlayerCameraHeading()
 
-  local DX = Px - Tx
-  local DY = Py - Ty
-  local D = math.sqrt((DX * DX) + (DY * DY))
-
-  local Angle = NormalizeAngle(Heading - math.atan2(DX, DY))
+  local DistanceX = PlayerX - TargetX
+  local DistanceY = PlayerY - TargetY
+  local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
+  
+  d(DistanceX)
+  -- 0 is straight, -PI/2 is left, PI/2 is right 
+  local Angle = NormalizeAngle(Heading - math.atan2(DistanceX, DistanceY))
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
-  CrownPointerThing.reticle.UpdateTexture(D, DX, DY, Angle, Linear, AbsoluteLinear)
+  CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
 end
 
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
