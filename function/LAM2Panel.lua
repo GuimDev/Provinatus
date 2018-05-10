@@ -89,8 +89,10 @@ function ProvinatusCreateLAM2Panel()
 					end
 				},
 				{
-					type = "description",
-					text = GetString(CROWN_POINTER_DEBUG_SETTINGS)
+					type = "divider",
+					width = "full", --or "half" (optional)
+					height = 10,
+					alpha = 0.25
 				},
 				{
 					type = "checkbox",
@@ -122,11 +124,17 @@ function ProvinatusCreateLAM2Panel()
 					setFunc = function(value)
 						CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget = value
 					end,
-					width = "half",
+					width = "full",
 					disabled = function()
 						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
 							CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
+				},
+				{
+					type = "divider",
+					width = "full", --or "half" (optional)
+					height = 10,
+					alpha = 0.25
 				},
 				{
 					-- TODO strings file
@@ -142,14 +150,29 @@ function ProvinatusCreateLAM2Panel()
 					disabled = function()
 						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug
 					end,
-					width = "full"
+					width = "half"
+				},
+				{
+					type = "button",
+					name = "Snap to me", -- string id or function returning a string
+					func = function()
+						local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
+						CrownPointerThing.SavedVars.DebugSettings.TargetX = PlayerX
+						CrownPointerThing.SavedVars.DebugSettings.TargetY = PlayerY
+					end,
+					tooltip = "Set Crown Pointer to your current location", -- string id or function returning a string (optional)
+					width = "half", --or "half" (optional)
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
+							not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+					end --or boolean (optional)
 				},
 				{
 					type = "slider",
 					name = "Set Crown X",
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
-					step = 1 / 50,
+					step = 1 / 100,
 					getFunc = function()
 						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.TargetX))
 					end,
@@ -167,13 +190,11 @@ function ProvinatusCreateLAM2Panel()
 					name = "Set Crown Y",
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
-					step = 1 / 50,
+					step = 1 / 100,
 					getFunc = function()
 						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.TargetY))
 					end,
 					setFunc = function(value)
-						d(GetMapPlayerPosition("player"))
-
 						CrownPointerThing.SavedVars.DebugSettings.TargetY = value
 					end,
 					width = "half",

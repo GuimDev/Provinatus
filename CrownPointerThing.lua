@@ -34,7 +34,9 @@ function CrownPointerThing.onUpdate()
   local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
   local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(GetGroupLeaderUnitTag())
   local Heading = GetPlayerCameraHeading()
-  local CrownTargetOverride = CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug and CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+  local CrownTargetOverride =
+    CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug and
+    CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 
   if CrownTargetOverride then
     TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
@@ -50,8 +52,10 @@ function CrownPointerThing.onUpdate()
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
 
-  if CrownTargetOverride then 
+  if CrownTargetOverride then
     CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget = Angle
+  elseif CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug then
+    Angle = CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget
   end
 
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
