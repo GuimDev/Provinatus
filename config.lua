@@ -29,6 +29,12 @@ ProvinatusConfig = {
       Alive = "/esoui/art/lfg/lfg_healer_up.dds",
     }
   },
+  HUD = {
+    Size = 300,
+    Compass = {
+      Alpha = 1
+    }
+  },
   Debug = false,
   DebugSettings = {
     -- If enabled, allows you to set crown position on map instead of just setting the angle.

@@ -35,5 +35,7 @@ function/LAM2Panel.lua
 ;Reticle that point to group leader
 reticles/arrow.lua
 reticles/elastic-arrows.lua
+function/Compass.lua
+
 CrownPointerThing.lua
 CrownPointerThing.xml

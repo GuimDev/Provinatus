@@ -18,6 +18,7 @@ end
 function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
   ProvinatusCreateLAM2Panel()
+  ProvinatusCompass:Initialize()
   EVENT_MANAGER:RegisterForEvent(
     CrownPointerThing.name,
     EVENT_PLAYER_ACTIVATED,
@@ -31,11 +32,12 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
+  if not CrownPointerThing.SavedVars then return end
   local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
   local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(GetGroupLeaderUnitTag())
   local Heading = GetPlayerCameraHeading()
   local CrownTargetOverride =
-    CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug and
+    CrownPointerThing.SavedVars.Debug and
     CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 
   if CrownTargetOverride then
@@ -59,6 +61,7 @@ function CrownPointerThing.onUpdate()
   end
 
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
+  ProvinatusCompass:UpdateCompass()
 end
 
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)

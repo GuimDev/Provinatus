@@ -92,12 +92,6 @@ function ProvinatusCreateLAM2Panel()
 					end
 				},
 				{
-					type = "divider",
-					width = "full", --or "half" (optional)
-					height = 10,
-					alpha = 0.25
-				},
-				{
 					type = "checkbox",
 					name = GetString(CROWN_POINTER_ENABLE_DEBUG),
 					tooltip = GetString(CROWN_POINTER_ENABLE_DEBUG_TOOLTIP),
@@ -132,12 +126,6 @@ function ProvinatusCreateLAM2Panel()
 						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
 							CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
-				},
-				{
-					type = "divider",
-					width = "full", --or "half" (optional)
-					height = 10,
-					alpha = 0.25
 				},
 				{
 					-- TODO strings file
@@ -214,20 +202,40 @@ function ProvinatusCreateLAM2Panel()
 			name = "Head Up Display",
 			controls = {
 				{
-					-- TODO strings file
-					type = "checkbox",
-					name = "Test Compass",
-					tooltip = "Remove before flight",
+					type = "slider",
+					name = "HUD Size",
+					tooltip = "Set how big the Head Up Display is on your screen",
+					min = 100,
+					max = 680,
+					step = 100,
 					getFunc = function()
-						return CrownPointerThing.SavedVars.DebugSettings.ShowCompass
+						return CrownPointerThing.SavedVars.HUD.Size
 					end,
 					setFunc = function(value)
-						CrownPointerThing.SavedVars.DebugSettings.ShowCompass = value
+						CrownPointerThing.SavedVars.HUD.Size = value
 					end,
+					width = "full",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+					end
+				},
+				{
+					type = "slider",
+					name = "Compass Opacity",
+					tooltip = "Set how transparent the compass points are",
+					min = 0,
+					max = 100,
+					step = 5,
+					getFunc = function()
+						return CrownPointerThing.SavedVars.HUD.Compass.Alpha * 100
 					end,
-					width = "half"
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.HUD.Compass.Alpha = value / 100
+					end,
+					width = "full",
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+					end
 				}
 			}
 		}
