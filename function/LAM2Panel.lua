@@ -124,7 +124,7 @@ function ProvinatusCreateLAM2Panel()
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				},
 				{
@@ -138,12 +138,14 @@ function ProvinatusCreateLAM2Panel()
 					setFunc = function(value)
 						CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride = value
 					end,
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug
+					end,
 					width = "full"
 				},
 				{
 					type = "slider",
 					name = "Set Crown X",
-					tooltip = GetString(CROWN_POINTER_DIRECTION_TOOLTIP),
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
 					step = 1 / 1000,
@@ -155,13 +157,12 @@ function ProvinatusCreateLAM2Panel()
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				},
 				{
 					type = "slider",
 					name = "Set Crown Y",
-					tooltip = GetString(CROWN_POINTER_DIRECTION_TOOLTIP),
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
 					step = 1 / 1000,
@@ -173,7 +174,7 @@ function ProvinatusCreateLAM2Panel()
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug  or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug  or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				}
 			}

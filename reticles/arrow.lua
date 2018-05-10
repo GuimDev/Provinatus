@@ -26,9 +26,12 @@ function ArrowReticle.UpdateTexture(DistanceToTarget, DX, DY, AngleToTarget, Lin
 
   if CrownPointerThing.SavedVars.Debug then
     DistanceToTarget = CrownPointerThing.SavedVars.DebugSettings.Reticle.DistanceToTarget
-    DX = CrownPointerThing.SavedVars.DebugSettings.Reticle.DX
-    DY = CrownPointerThing.SavedVars.DebugSettings.Reticle.DY
+    DistanceX = CrownPointerThing.SavedVars.DebugSettings.Tx
+    DistanceY = CrownPointerThing.SavedVars.DebugSettings.Ty
     AngleToTarget = CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget
+    if CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride then 
+      AngleToTarget = NormalizeAngle(GetPlayerCameraHeading() - math.atan2(DistanceX, DistanceY))
+    end
     Linear = CrownPointerThing.SavedVars.DebugSettings.Reticle.Linear
     AbsoluteLinear = CrownPointerThing.SavedVars.DebugSettings.Reticle.AbsoluteLinear
   end

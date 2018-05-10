@@ -5,7 +5,7 @@ CrownPointerThing.name = "Provinatus"
 CrownPointerThing.reticle = ArrowReticle
 
 -- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
-local function NormalizeAngle(c)
+function NormalizeAngle(c)
   if c > math.pi then
     return c - 2 * math.pi
   end
@@ -52,7 +52,6 @@ function CrownPointerThing.onUpdate()
   local DistanceY = PlayerY - TargetY
   local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
   
-  d(DistanceX)
   -- 0 is straight, -PI/2 is left, PI/2 is right 
   local Angle = NormalizeAngle(Heading - math.atan2(DistanceX, DistanceY))
   local Linear = Angle / math.pi
