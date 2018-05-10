@@ -173,6 +173,7 @@ function ProvinatusCreateLAM2Panel()
 				{
 					type = "slider",
 					name = "Set Crown X",
+					-- TODO use zo_round() to
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
 					step = 1 / 100,
