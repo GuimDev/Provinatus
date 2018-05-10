@@ -124,7 +124,8 @@ function ProvinatusCreateLAM2Panel()
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
+							CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				},
 				{
@@ -148,16 +149,17 @@ function ProvinatusCreateLAM2Panel()
 					name = "Set Crown X",
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
-					step = 1 / 1000,
+					step = 1 / 50,
 					getFunc = function()
-						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.Tx))
+						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.TargetX))
 					end,
 					setFunc = function(value)
-						CrownPointerThing.SavedVars.DebugSettings.Tx = value
+						CrownPointerThing.SavedVars.DebugSettings.TargetX = value
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
+							not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				},
 				{
@@ -165,16 +167,19 @@ function ProvinatusCreateLAM2Panel()
 					name = "Set Crown Y",
 					min = tonumber(string.format("%." .. (2 or 0) .. "f", 0)),
 					max = tonumber(string.format("%." .. (2 or 0) .. "f", 1)),
-					step = 1 / 1000,
+					step = 1 / 50,
 					getFunc = function()
-						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.Ty))
+						return tonumber(string.format("%." .. (2 or 0) .. "f", CrownPointerThing.SavedVars.DebugSettings.TargetY))
 					end,
 					setFunc = function(value)
-						CrownPointerThing.SavedVars.DebugSettings.Ty = value
+						d(GetMapPlayerPosition("player"))
+
+						CrownPointerThing.SavedVars.DebugSettings.TargetY = value
 					end,
 					width = "half",
 					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug  or not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
+							not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
 				}
 			}

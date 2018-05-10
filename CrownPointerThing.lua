@@ -5,7 +5,7 @@ CrownPointerThing.name = "Provinatus"
 CrownPointerThing.reticle = ArrowReticle
 
 -- From Exterminatus http://www.esoui.com/downloads/info329-0.1.html
-function NormalizeAngle(c)
+local function NormalizeAngle(c)
   if c > math.pi then
     return c - 2 * math.pi
   end
@@ -17,6 +17,7 @@ end
 
 function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
+  ProvinatusCreateLAM2Panel()
   EVENT_MANAGER:RegisterForEvent(
     CrownPointerThing.name,
     EVENT_PLAYER_ACTIVATED,
@@ -27,35 +28,32 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   CrownPointerThing.reticle.Initialize()
-  ProvinatusCreateLAM2Panel()  
-end
-
--- Gets target position or overrides with debug settings.
-local function GetTargetPositionfoo(leader)
-  local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(leader)
-  if CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug then
-    TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
-    TargetY = CrownPointerThing.SavedVars.DebugSettings.TargetY
-    TargetHeading = 0
-  end
-  
-  return TargetX, TargetY, TargetHeading
 end
 
 function CrownPointerThing.onUpdate()
-  local leader = GetGroupLeaderUnitTag()
   local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
-  local TargetX, TargetY, TargetHeading = GetTargetPositionfoo(leader)
+  local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(GetGroupLeaderUnitTag())
   local Heading = GetPlayerCameraHeading()
+  local CrownTargetOverride = CrownPointerThing.SavedVars and CrownPointerThing.SavedVars.Debug and CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+
+  if CrownTargetOverride then
+    TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
+    TargetY = CrownPointerThing.SavedVars.DebugSettings.TargetY
+  end
 
   local DistanceX = PlayerX - TargetX
   local DistanceY = PlayerY - TargetY
   local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
-  
-  -- 0 is straight, -PI/2 is left, PI/2 is right 
+
+  -- 0 is straight, -PI/2 is left, PI/2 is right
   local Angle = NormalizeAngle(Heading - math.atan2(DistanceX, DistanceY))
   local Linear = Angle / math.pi
   local AbsoluteLinear = math.abs(Linear)
+
+  if CrownTargetOverride then 
+    CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget = Angle
+  end
+
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
 end
 
