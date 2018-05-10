@@ -207,6 +207,28 @@ function ProvinatusCreateLAM2Panel()
 					end
 				}
 			}
+		},
+		{
+			type = "submenu",
+			name = "Head Up Display",
+			controls = {
+				{
+					-- TODO strings file
+					type = "checkbox",
+					name = "Test Compass",
+					tooltip = "Remove before flight",
+					getFunc = function()
+						return CrownPointerThing.SavedVars.DebugSettings.ShowCompass
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.DebugSettings.ShowCompass = value
+					end,
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug
+					end,
+					width = "half"
+				}
+			}
 		}
 	}
 

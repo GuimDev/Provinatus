@@ -37,6 +37,8 @@ ProvinatusConfig = {
     TargetX = 0.5,
     -- Target y position on the map
     TargetY = 0.5,
+    -- Force show the compass
+    ShowCompass = false,
     Reticle = {
       DistanceToTarget = 0,
       AngleToTarget = 0.0,
