@@ -9,6 +9,9 @@ local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownAlpha
 	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha =
 		ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
+	CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride = ProvinatusConfig.DebugSettings.CrownPositionOverride
+	CrownPointerThing.SavedVars.DebugSettings.TargetX = ProvinatusConfig.DebugSettings.TargetX
+	CrownPointerThing.SavedVars.DebugSettings.TargetY = ProvinatusConfig.DebugSettings.TargetY
 end
 
 local function SetDebug(value)
