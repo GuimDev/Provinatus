@@ -27,6 +27,9 @@ function CrownPointerThing:Initialize()
 end
 
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
+  -- TODO move to init
+  ProvinatusHUD:Initialize()
+
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   CrownPointerThing.reticle.Initialize()
 end
@@ -62,6 +65,7 @@ function CrownPointerThing.onUpdate()
 
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
   ProvinatusCompass:UpdateCompass()
+  ProvinatusHUD:UpdateHUD()
 end
 
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
