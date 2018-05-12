@@ -15,7 +15,7 @@ function ProvinatusHUD:Initialize()
     if IsOnline and self.Players[DisplayName] == nil and UnitName ~= MyName then
       self.Players[DisplayName] = {}
       self.Players[DisplayName].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
-      self.Players[DisplayName].Icon:SetDimensions(40, 40)
+      self.Players[DisplayName].Icon:SetDimensions(24, 24)
       self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
       self.Players[DisplayName].Icon:SetTexture("/esoui/art/icons/mapkey/mapkey_groupmember.dds")
       self.Players[DisplayName].Icon:SetDrawLevel(3)
@@ -37,20 +37,11 @@ function ProvinatusHUD:UpdateHUD()
       local DistanceX = MyX - X
       local DistanceY = MyY - Y
       local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
-      local ProjectedRadius = math.atan(DistanceTarget) * 10000
-      local Angle = GetPlayerCameraHeading() - math.atan2(DistanceY, DistanceX) - math.pi / 2
-      d(math.atan2(DistanceY, DistanceX))
-      local IconX = ProjectedRadius * math.cos(Angle)
-      local IconY = ProjectedRadius * math.sin(Angle)
-
-      -- local Distance = math.sqrt((DX * DX) + (DY * DY))
-      self.Players[DisplayName].Icon:SetAnchor(
-        CENTER,
-        CrownPointerThingIndicator,
-        CENTER,
-        -IconX,
-        -IconY + CrownPointerThing.SavedVars.CrownPointer.Size / 2
-      )
+      local Phi = -1 * GetPlayerCameraHeading() - math.atan2(DistanceY, DistanceX)
+      local DistanceProjected = math.atan(DistanceTarget * 500) * (CrownPointerThing.SavedVars.HUD.Size / 2)
+      local XProjected = DistanceProjected * math.cos(Phi)
+      local YProjected = DistanceProjected * math.sin(Phi)
+      self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
     end
   end
 end

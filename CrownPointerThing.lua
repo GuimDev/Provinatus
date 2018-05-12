@@ -41,7 +41,7 @@ function CrownPointerThing.onUpdate()
   local Heading = GetPlayerCameraHeading()
   local CrownTargetOverride =
     CrownPointerThing.SavedVars.Debug and
-    CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+    CrownPointerThing.SavedVars.DebugSettsings.CrownPositionOverride
 
   if CrownTargetOverride then
     TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
