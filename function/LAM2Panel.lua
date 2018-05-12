@@ -4,11 +4,6 @@ local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.CrownPointer.Size = ProvinatusConfig.CrownPointer.Size
 	CrownPointerThing.SavedVars.Debug = ProvinatusConfig.Debug
 	CrownPointerThing.SavedVars.DebugSettings.Reticle.AngleToTarget = ProvinatusConfig.DebugSettings.Reticle.AngleToTarget
-	CrownPointerThing.SavedVars.PlayerIconSettings.CrownAlpha = ProvinatusConfig.PlayerIconSettings.CrownAlpha
-	CrownPointerThing.SavedVars.PlayerIconSettings.CrownDeadAlpha = ProvinatusConfig.PlayerIconSettings.CrownDeadAlpha
-	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownAlpha = ProvinatusConfig.PlayerIconSettings.NonCrownAlpha
-	CrownPointerThing.SavedVars.PlayerIconSettings.NonCrownDeadAlpha =
-		ProvinatusConfig.PlayerIconSettings.NonCrownDeadAlpha
 	CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride = ProvinatusConfig.DebugSettings.CrownPositionOverride
 	CrownPointerThing.SavedVars.DebugSettings.TargetX = ProvinatusConfig.DebugSettings.TargetX
 	CrownPointerThing.SavedVars.DebugSettings.TargetY = ProvinatusConfig.DebugSettings.TargetY

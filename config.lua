@@ -7,12 +7,12 @@ ProvinatusConfig = {
     Size = 50,
     Texture = "esoui/art/floatingmarkers/quest_icon_assisted.dds"
   },
-  PlayerIconSettings = {
-    CrownAlpha = 1.0,
-    CrownDeadAlpha = 1.0,
-    NonCrownAlpha = 1.0,
-    NonCrownDeadAlpha = 1.0
-  },
+
+
+
+
+
+  
   PlayerIcons = {
     Dead = "/esoui/art/icons/poi/poi_groupboss_incomplete.dds",
     ResurrectionPending = "/esoui/art/icons/poi/poi_groupboss_complete.dds",
