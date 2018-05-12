@@ -27,21 +27,23 @@ function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then return end
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
-    local UnitName = GetUnitName(UnitTag)
-    local MyName = GetUnitName("player")
-    local IsLeader = IsUnitGroupLeader(UnitTag)
-    local IsOnline = IsUnitOnline(UnitTag)
+    -- local IsLeader = IsUnitGroupLeader(UnitTag)
     local DisplayName = GetUnitDisplayName(UnitTag)
-    if IsOnline and self.Players[DisplayName] ~= nil and UnitName ~= MyName then
+    if IsUnitOnline(UnitTag) and self.Players[DisplayName] ~= nil and GetUnitName(UnitTag) ~= GetUnitName("player") then
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
+      -- Horizontal distance to target
       local DistanceX = MyX - X
+      -- Vertical distance to target
       local DistanceY = MyY - Y
-      local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
+      -- Angle to target. ¯\_(ツ)_/¯
       local Phi = -1 * GetPlayerCameraHeading() - math.atan2(DistanceY, DistanceX)
-      local DistanceProjected = math.atan(DistanceTarget * 500) * (CrownPointerThing.SavedVars.HUD.Size / 2)
+      -- The closer the target the more exaggerated the movement becomes.  
+      local DistanceProjected = math.atan(math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY)) * 500) * (CrownPointerThing.SavedVars.HUD.Size / 2)
+      -- Calculates where to draw on the screen.
       local XProjected = DistanceProjected * math.cos(Phi)
       local YProjected = DistanceProjected * math.sin(Phi)
+      -- Need to flip the x axis.
       self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
     end
   end
