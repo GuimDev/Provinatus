@@ -34,27 +34,23 @@ function ProvinatusHUD:UpdateHUD()
     if IsOnline and self.Players[DisplayName] ~= nil and UnitName ~= MyName then
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
-      local DX = MyX - X
-      local DY = MyY - Y
-
-      local Log2X = math.log(math.abs(DX) * 2, 2)
-      local Log2Y = math.log(math.abs(DY) * 2, 2)
-
-      if DX < 0 then 
-        DX = -Log2X
-      else
-        DX = Log2X
-      end
-
-      if DY < 0 then
-        DY = -Log2Y
-      else
-        DY = Log2Y
-      end
+      local DistanceX = MyX - X
+      local DistanceY = MyY - Y
+      local DistanceTarget = math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY))
+      local ProjectedRadius = math.atan(DistanceTarget) * 10000
+      local Angle = GetPlayerCameraHeading() - math.atan2(DistanceY, DistanceX) - math.pi / 2
+      d(math.atan2(DistanceY, DistanceX))
+      local IconX = ProjectedRadius * math.cos(Angle)
+      local IconY = ProjectedRadius * math.sin(Angle)
 
       -- local Distance = math.sqrt((DX * DX) + (DY * DY))
-      d(DX, DY, "*")
-      self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, DX, DY)
+      self.Players[DisplayName].Icon:SetAnchor(
+        CENTER,
+        CrownPointerThingIndicator,
+        CENTER,
+        -IconX,
+        -IconY + CrownPointerThing.SavedVars.CrownPointer.Size / 2
+      )
     end
   end
 end
