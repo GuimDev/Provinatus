@@ -22,8 +22,7 @@ function ProvinatusCompass:UpdateCompass()
     local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()
     local CardinalDirectionX = zo_round(CrownPointerThing.SavedVars.HUD.Size * math.cos(heading))
     local CardinalDirectionY = zo_round(CrownPointerThing.SavedVars.HUD.Size * math.sin(heading))
-    -- Add h
-    CardinalDirectionY = CardinalDirectionY + CrownPointerThing.SavedVars.CrownPointer.Size / 2 
+    CardinalDirectionY = CardinalDirectionY
     self.CardinalPoints[i]:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, CardinalDirectionX, CardinalDirectionY)
     self.CardinalPoints[i]:SetAlpha(CrownPointerThing.SavedVars.HUD.Compass.Alpha)
   end

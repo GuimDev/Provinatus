@@ -24,6 +24,7 @@ function ProvinatusHUD:Initialize()
 end
 
 function ProvinatusHUD:UpdateHUD()
+  if not CrownPointerThing or not CrownPointerThing.SavedVars then return end
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
     local UnitName = GetUnitName(UnitTag)

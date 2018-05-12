@@ -3,7 +3,7 @@ ArrowReticle = {}
 local Arrow
 function ArrowReticle.Initialize()
   Arrow = Arrow or WINDOW_MANAGER:CreateControl("Arrow", CrownPointerThingIndicator, CT_TEXTURE)
-  Arrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, CrownPointerThing.SavedVars.CrownPointer.Size / 2)
+  Arrow:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
   Arrow:SetTexture(CrownPointerThing.SavedVars.CrownPointer.Texture)
 end
 
