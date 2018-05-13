@@ -22,12 +22,58 @@ function ProvinatusHUD:Initialize()
   end
 end
 
-local function GetIconTexture(UnitTag) 
-  local Texture = 
+local ClassMapping = {
+  [1] = "Dragonknight",
+  [2] = "Sorcerer",
+  [3] = "Nightblade",
+  [4] = "Warden",
+  [6] = "Templar"
+}
+
+local function GetIconTexture(UnitTag)
+  local Texture
+  if IsUnitGroupLeader(UnitTag) then
+    Texture = CrownPointerThing.SavedVars.PlayerIcons.Crown.Alive
+  elseif CrownPointerThing.SavedVars.HUD.ShowRoleIcons then
+    local IsDps, IsHealer, IsTank = GetGroupMemberRoles(UnitTag)
+    local Role = "dps"
+    if IsTank then
+      Role = "tank"
+    elseif IsHealer then
+      Role = "healer"
+    end
+    Texture = "/esoui/art/lfg/lfg_" .. Role .. "_up.dds"
+  else
+    local Class = ClassMapping[GetUnitClassId(UnitTag)]
+    Texture = "esoui/art/contacts/social_classicon_" .. Class .. ".dds"
+  end
+  return Texture
+end
+
+local function GetIconAlpha(UnitTag)
+  local Apha
+  if not IsUnitOnline(UnitTag) then
+    Alpha = 0
+  elseif IsUnitGroupLeader(UnitTag) then
+    Alpha = CrownPointerThing.SavedVars.HUD.TargetIconAlpha
+  else
+    Alpha = CrownPointerThing.SavedVars.HUD.PlayerIconAlpha
+  end
+  return Alpha
+end
+
+local function GetIconDimensions(UnitTag)
+  if IsUnitGroupLeader(UnitTag) then
+    return CrownPointerThing.SavedVars.HUD.TargetIconSize, CrownPointerThing.SavedVars.HUD.TargetIconSize
+  else
+    return CrownPointerThing.SavedVars.HUD.PlayerIconSize, CrownPointerThing.SavedVars.HUD.PlayerIconSize
+  end
 end
 
 function ProvinatusHUD:UpdateHUD()
-  if not CrownPointerThing or not CrownPointerThing.SavedVars then return end
+  if not CrownPointerThing or not CrownPointerThing.SavedVars then
+    return
+  end
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
     -- local IsLeader = IsUnitGroupLeader(UnitTag)
@@ -40,15 +86,18 @@ function ProvinatusHUD:UpdateHUD()
       local DistanceY = MyY - Y
       -- Angle to target. ¯\_(ツ)_/¯
       local Phi = -1 * GetPlayerCameraHeading() - math.atan2(DistanceY, DistanceX)
-      -- The closer the target the more exaggerated the movement becomes.  
-      local DistanceProjected = math.atan(math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY)) * 500) * (CrownPointerThing.SavedVars.HUD.Size / 2)
+      -- The closer the target the more exaggerated the movement becomes.
+      local DistanceProjected =
+        math.atan(math.sqrt((DistanceX * DistanceX) + (DistanceY * DistanceY)) * 500) *
+        (CrownPointerThing.SavedVars.HUD.Size / 2)
       -- Calculates where to draw on the screen.
       local XProjected = DistanceProjected * math.cos(Phi)
       local YProjected = DistanceProjected * math.sin(Phi)
       -- Need to flip the x axis.
       self.Players[i].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
-    elseif self.Players[i] ~= nil and not IsUnitOnline(UnitTag) then
-      self.Players[i].Icon:SetAlpha(0)
+      self.Players[i].Icon:SetTexture(GetIconTexture(UnitTag))
+      self.Players[i].Icon:SetAlpha(GetIconAlpha(UnitTag))
+      self.Players[i].Icon:SetDimensions(GetIconDimensions(UnitTag))
     end
   end
 end

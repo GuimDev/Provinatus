@@ -7,12 +7,6 @@ ProvinatusConfig = {
     Size = 50,
     Texture = "esoui/art/floatingmarkers/quest_icon_assisted.dds"
   },
-
-
-
-
-
-  
   PlayerIcons = {
     Dead = "/esoui/art/icons/poi/poi_groupboss_incomplete.dds",
     ResurrectionPending = "/esoui/art/icons/poi/poi_groupboss_complete.dds",
@@ -30,8 +24,16 @@ ProvinatusConfig = {
     }
   },
   HUD = {
-    Size = 300,
+    Enabled = true,
+    Size = 350,
+    ShowRoleIcons = false,
+    TargetIconAlpha = 1,
+    TargetIconSize = 24,
+    PlayerIconAlpha = 1,
+    PlayerIconSize = 24,
     Compass = {
+      -- TODO use this flag
+      Enabled = true,
       Alpha = 1
     }
   },
