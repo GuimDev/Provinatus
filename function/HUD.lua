@@ -9,16 +9,15 @@ function ProvinatusHUD:Initialize()
     MyName = GetUnitName("player")
     IsLeader = IsUnitGroupLeader(UnitTag)
     IsOnline = IsUnitOnline(UnitTag)
-    DisplayName = GetUnitDisplayName(UnitTag)
 
     -- TODO should index by unittag?
-    if IsOnline and self.Players[DisplayName] == nil and UnitName ~= MyName then
-      self.Players[DisplayName] = {}
-      self.Players[DisplayName].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
-      self.Players[DisplayName].Icon:SetDimensions(24, 24)
-      self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
-      self.Players[DisplayName].Icon:SetTexture("/esoui/art/icons/mapkey/mapkey_groupmember.dds")
-      self.Players[DisplayName].Icon:SetDrawLevel(3)
+    if IsOnline and self.Players[UnitTag] == nil and UnitName ~= MyName then
+      self.Players[UnitTag] = {}
+      self.Players[UnitTag].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
+      self.Players[UnitTag].Icon:SetDimensions(24, 24)
+      self.Players[UnitTag].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, 0, 0)
+      self.Players[UnitTag].Icon:SetTexture("/esoui/art/icons/mapkey/mapkey_groupmember.dds")
+      self.Players[UnitTag].Icon:SetDrawLevel(3)
     end
   end
 end
@@ -28,8 +27,7 @@ function ProvinatusHUD:UpdateHUD()
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
     -- local IsLeader = IsUnitGroupLeader(UnitTag)
-    local DisplayName = GetUnitDisplayName(UnitTag)
-    if IsUnitOnline(UnitTag) and self.Players[DisplayName] ~= nil and GetUnitName(UnitTag) ~= GetUnitName("player") then
+    if IsUnitOnline(UnitTag) and self.Players[UnitTag] ~= nil and GetUnitName(UnitTag) ~= GetUnitName("player") then
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
       -- Horizontal distance to target
@@ -44,7 +42,9 @@ function ProvinatusHUD:UpdateHUD()
       local XProjected = DistanceProjected * math.cos(Phi)
       local YProjected = DistanceProjected * math.sin(Phi)
       -- Need to flip the x axis.
-      self.Players[DisplayName].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
+      self.Players[UnitTag].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
+    elseif self.Players[UnitTag] ~= nil and not IsUnitOnline(UnitTag) then
+      self.Players[UnitTag].Icon:SetAlpha(0)
     end
   end
 end
