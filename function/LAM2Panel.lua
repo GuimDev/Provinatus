@@ -7,6 +7,13 @@ local function ResetCrownPointer()
 	CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride = ProvinatusConfig.DebugSettings.CrownPositionOverride
 	CrownPointerThing.SavedVars.DebugSettings.TargetX = ProvinatusConfig.DebugSettings.TargetX
 	CrownPointerThing.SavedVars.DebugSettings.TargetY = ProvinatusConfig.DebugSettings.TargetY
+	CrownPointerThing.SavedVars.HUD.Size = ProvinatusConfig.HUD.Size
+	CrownPointerThing.SavedVars.HUD.Compass.Alpha = ProvinatusConfig.HUD.Compass.Alpha
+	CrownPointerThing.SavedVars.HUD.ShowRoleIcons = ProvinatusConfig.HUD.ShowRoleIcons
+	CrownPointerThing.SavedVars.HUD.TargetIconAlpha = ProvinatusConfig.HUD.TargetIconAlpha
+	CrownPointerThing.SavedVars.HUD.TargetIconSize = ProvinatusConfig.HUD.TargetIconSize
+	CrownPointerThing.SavedVars.HUD.PlayerIconAlpha = ProvinatusConfig.HUD.PlayerIconAlpha
+	CrownPointerThing.SavedVars.HUD.PlayerIconSize = ProvinatusConfig.HUD.PlayerIconSize
 end
 
 local function SetDebug(value)
@@ -34,6 +41,144 @@ function ProvinatusCreateLAM2Panel()
 	}
 
 	local optionsData = {
+		{
+			type = "submenu",
+			name = "Head Up Display",
+			controls = {
+				{
+					type = "slider",
+					name = "HUD Size",
+					tooltip = "Set how big the Head Up Display is on your screen",
+					min = 100,
+					max = 680,
+					step = 100,
+					getFunc = function()
+						return CrownPointerThing.SavedVars.HUD.Size
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.HUD.Size = value
+					end,
+					width = "full",
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+					end
+				},
+				{
+					type = "slider",
+					name = "Compass Opacity",
+					tooltip = "Set how transparent the compass points are",
+					min = 0,
+					max = 100,
+					step = 5,
+					getFunc = function()
+						return CrownPointerThing.SavedVars.HUD.Compass.Alpha * 100
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.HUD.Compass.Alpha = value / 100
+					end,
+					width = "full",
+					disabled = function()
+						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+					end
+				},
+				{
+					type = "checkbox",
+					name = "Show Role Icons",
+					tooltip = "Shows Role selected by player",
+					getFunc = function()
+						return CrownPointerThing.SavedVars.HUD.ShowRoleIcons
+					end,
+					setFunc = function(value)
+						CrownPointerThing.SavedVars.HUD.ShowRoleIcons = value
+					end,
+					width = "full"
+				},
+				{
+					type = "submenu",
+					name = "Leader Icon Settings",
+					controls = {
+						{
+							type = "slider",
+							name = "Leader's Icon Opacity",
+							tooltip = "Set how transparent the leader's icon is",
+							min = 0,
+							max = 100,
+							step = 5,
+							getFunc = function()
+								return CrownPointerThing.SavedVars.HUD.TargetIconAlpha * 100
+							end,
+							setFunc = function(value)
+								CrownPointerThing.SavedVars.HUD.TargetIconAlpha = value / 100
+							end,
+							width = "half",
+							disabled = function()
+								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+							end
+						},
+						{
+							type = "slider",
+							name = "Leader's Icon Size",
+							tooltip = "Set the size of leader's'",
+							min = 24,
+							max = 100,
+							step = 5,
+							getFunc = function()
+								return CrownPointerThing.SavedVars.HUD.TargetIconSize
+							end,
+							setFunc = function(value)
+								CrownPointerThing.SavedVars.HUD.TargetIconSize = value
+							end,
+							width = "half",
+							disabled = function()
+								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+							end
+						}
+					}
+				},
+				{
+					type = "submenu",
+					name = "Non-Leader Icon Settings",
+					controls = {
+						{
+							type = "slider",
+							name = "Player Icon Opacity",
+							tooltip = "Set how transparent the non-leaders' icons are",
+							min = 0,
+							max = 100,
+							step = 5,
+							getFunc = function()
+								return CrownPointerThing.SavedVars.HUD.PlayerIconAlpha * 100
+							end,
+							setFunc = function(value)
+								CrownPointerThing.SavedVars.HUD.PlayerIconAlpha = value / 100
+							end,
+							width = "half",
+							disabled = function()
+								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+							end
+						},
+						{
+							type = "slider",
+							name = "Player Icon Size",
+							tooltip = "Set the size of non-leader icons",
+							min = 24,
+							max = 100,
+							step = 5,
+							getFunc = function()
+								return CrownPointerThing.SavedVars.HUD.PlayerIconSize
+							end,
+							setFunc = function(value)
+								CrownPointerThing.SavedVars.HUD.PlayerIconSize = value
+							end,
+							width = "half",
+							disabled = function()
+								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
+							end
+						}
+					}
+				}
+			}
+		},
 		{
 			type = "submenu",
 			name = GetString(CROWN_POINTER_THING),
@@ -189,144 +334,6 @@ function ProvinatusCreateLAM2Panel()
 						return not CrownPointerThing.SavedVars.CrownPointer.Enabled or not CrownPointerThing.SavedVars.Debug or
 							not CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 					end
-				}
-			}
-		},
-		{
-			type = "submenu",
-			name = "Head Up Display",
-			controls = {
-				{
-					type = "slider",
-					name = "HUD Size",
-					tooltip = "Set how big the Head Up Display is on your screen",
-					min = 100,
-					max = 680,
-					step = 100,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.HUD.Size
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.HUD.Size = value
-					end,
-					width = "full",
-					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-					end
-				},
-				{
-					type = "slider",
-					name = "Compass Opacity",
-					tooltip = "Set how transparent the compass points are",
-					min = 0,
-					max = 100,
-					step = 5,
-					getFunc = function()
-						return CrownPointerThing.SavedVars.HUD.Compass.Alpha * 100
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.HUD.Compass.Alpha = value / 100
-					end,
-					width = "full",
-					disabled = function()
-						return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-					end
-				},
-				{
-					type = "checkbox",
-					name = "Show Role Icons",
-					tooltip = "Shows Role selected by player",
-					getFunc = function()
-						return CrownPointerThing.SavedVars.HUD.ShowRoleIcons 
-					end,
-					setFunc = function(value)
-						CrownPointerThing.SavedVars.HUD.ShowRoleIcons  = value
-					end,
-					width = "full"
-				},
-				{
-					type = "submenu",
-					name = "Leader Icon Settings",
-					controls = {
-						{
-							type = "slider",
-							name = "Leader's Icon Opacity",
-							tooltip = "Set how transparent the leader's icon is",
-							min = 0,
-							max = 100,
-							step = 5,
-							getFunc = function()
-								return CrownPointerThing.SavedVars.HUD.TargetIconAlpha * 100
-							end,
-							setFunc = function(value)
-								CrownPointerThing.SavedVars.HUD.TargetIconAlpha = value / 100
-							end,
-							width = "half",
-							disabled = function()
-								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-							end
-						},
-						{
-							type = "slider",
-							name = "Leader's Icon Size",
-							tooltip = "Set the size of leader's'",
-							min = 24,
-							max = 100,
-							step = 5,
-							getFunc = function()
-								return CrownPointerThing.SavedVars.HUD.TargetIconSize
-							end,
-							setFunc = function(value)
-								CrownPointerThing.SavedVars.HUD.TargetIconSize = value
-							end,
-							width = "half",
-							disabled = function()
-								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-							end
-						}
-					}
-				},
-				{
-					type = "submenu",
-					name = "Non-Leader Icon Settings",
-					controls = {
-						{
-							type = "slider",
-							name = "Player Icon Opacity",
-							tooltip = "Set how transparent the non-leaders' icons are",
-							min = 0,
-							max = 100,
-							step = 5,
-							getFunc = function()
-								return CrownPointerThing.SavedVars.HUD.PlayerIconAlpha * 100
-							end,
-							setFunc = function(value)
-								CrownPointerThing.SavedVars.HUD.PlayerIconAlpha = value / 100
-							end,
-							width = "half",
-							disabled = function()
-								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-							end
-						},
-						{
-							type = "slider",
-							name = "Player Icon Size",
-							tooltip = "Set the size of non-leader icons",
-							min = 24,
-							max = 100,
-							step = 5,
-							getFunc = function()
-								return CrownPointerThing.SavedVars.HUD.PlayerIconSize
-							end,
-							setFunc = function(value)
-								CrownPointerThing.SavedVars.HUD.PlayerIconSize = value
-							end,
-							width = "half",
-							disabled = function()
-								return not CrownPointerThing.SavedVars.CrownPointer.Enabled
-							end
-						}
-					}
 				}
 			}
 		}

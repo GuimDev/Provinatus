@@ -27,9 +27,6 @@ function CrownPointerThing:Initialize()
 end
 
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
-  -- TODO move to init
-  ProvinatusHUD:Initialize()
-
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   CrownPointerThing.reticle.Initialize()
 end
@@ -41,7 +38,7 @@ function CrownPointerThing.onUpdate()
   local Heading = GetPlayerCameraHeading()
   local CrownTargetOverride =
     CrownPointerThing.SavedVars.Debug and
-    CrownPointerThing.SavedVars.DebugSettsings.CrownPositionOverride
+    CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 
   if CrownTargetOverride then
     TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
