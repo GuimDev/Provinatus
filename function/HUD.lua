@@ -86,6 +86,7 @@ function ProvinatusHUD:UpdateHUD()
   end
 
   ProvinatusCompass:UpdateCompass()
+  -- TODO update Crown Pointer from here also
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
     if IsUnitOnline(UnitTag) and GetUnitName(UnitTag) ~= GetUnitName("player") then
