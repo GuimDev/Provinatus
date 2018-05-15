@@ -10,9 +10,19 @@ local ClassMapping = {
   [6] = "Templar"
 }
 
+-- Returns true if the unit is reincarnating, is being resurrected, 
+-- or has a resurrection pending.
+local function UnitHasBeenTendedTo(UnitTag)
+  return IsUnitReincarnating(UnitTag) or IsUnitBeingResurrected(UnitTag) or DoesUnitHaveResurrectPending(UnitTag)
+end
+
 local function GetIconTexture(UnitTag)
   local Texture
-  if IsUnitGroupLeader(UnitTag) then
+  if UnitHasBeenTendedTo(UnitTag) then
+    Texture = CrownPointerThing.SavedVars.PlayerIcons.ResurrectionPending
+  elseif IsUnitDead(UnitTag) then
+    Texture = CrownPointerThing.SavedVars.PlayerIcons.Dead
+  elseif IsUnitGroupLeader(UnitTag) then
     Texture = CrownPointerThing.SavedVars.PlayerIcons.Crown.Alive
   elseif CrownPointerThing.SavedVars.HUD.ShowRoleIcons then
     local IsDps, IsHealer, IsTank = GetGroupMemberRoles(UnitTag)
@@ -50,6 +60,15 @@ local function GetIconDimensions(UnitTag)
   end
 end
 
+local function GetIconColor(UnitTag)
+  local R, G, B = 1, 1, 1
+  if IsUnitDead(UnitTag) and not UnitHasBeenTendedTo(UnitTag) then
+    G = 0
+    B = 0
+  end
+  return R, G, B
+end
+
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
@@ -83,6 +102,7 @@ function ProvinatusHUD:UpdateHUD()
       self.Players[i].Icon:SetTexture(GetIconTexture(UnitTag))
       self.Players[i].Icon:SetAlpha(GetIconAlpha(UnitTag))
       self.Players[i].Icon:SetDimensions(GetIconDimensions(UnitTag))
+      self.Players[i].Icon:SetColor(GetIconColor(UnitTag))
     end
   end
 
