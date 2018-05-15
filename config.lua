@@ -11,16 +11,7 @@ ProvinatusConfig = {
     Dead = "/esoui/art/icons/poi/poi_groupboss_incomplete.dds",
     ResurrectionPending = "/esoui/art/icons/poi/poi_groupboss_complete.dds",
     Crown = {
-      Alive = "EsoUI/Art/Compass/groupLeader.dds",
-    },
-    dps = {
-      Alive = "/esoui/art/lfg/lfg_dps_up.dds",
-    },
-    tank = {
-      Alive = "/esoui/art/lfg/lfg_tank_up.dds",
-    },
-    healer = {
-      Alive = "/esoui/art/lfg/lfg_healer_up.dds",
+      Alive = "EsoUI/Art/Compass/groupLeader.dds"
     }
   },
   HUD = {

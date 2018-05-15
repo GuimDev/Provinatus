@@ -10,7 +10,7 @@ local ClassMapping = {
   [6] = "Templar"
 }
 
--- Returns true if the unit is reincarnating, is being resurrected, 
+-- Returns true if the unit is reincarnating, is being resurrected,
 -- or has a resurrection pending.
 local function UnitHasBeenTendedTo(UnitTag)
   return IsUnitReincarnating(UnitTag) or IsUnitBeingResurrected(UnitTag) or DoesUnitHaveResurrectPending(UnitTag)
@@ -62,9 +62,15 @@ end
 
 local function GetIconColor(UnitTag)
   local R, G, B = 1, 1, 1
-  if IsUnitDead(UnitTag) and not UnitHasBeenTendedTo(UnitTag) then
-    G = 0
-    B = 0
+  if IsUnitDead(UnitTag) then
+    if not UnitHasBeenTendedTo(UnitTag) then
+      G = 0
+      B = 0
+    end
+  else
+    local health, maxHealth, effectiveMaxHealth = GetUnitPower(UnitTag, POWERTYPE_HEALTH)
+    G = health / maxHealth
+    B = health / maxHealth
   end
   return R, G, B
 end
@@ -81,7 +87,7 @@ function ProvinatusHUD:UpdateHUD()
         self.Players[i] = {}
         self.Players[i].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
       end
-      if not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden() then
+      if not CrownPointerThing.SavedVars.HUD.Enabled then
         self.Players[i].Icon:SetAlpha(0)
         return
       end

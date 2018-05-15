@@ -17,7 +17,7 @@ end
 
 function ProvinatusCompass:UpdateCompass()
   for i = 1, 4 do
-    if not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden() then
+    if not CrownPointerThing.SavedVars.HUD.Enabled then
       self.CardinalPoints[i]:SetAlpha(0)
     else
       local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()
