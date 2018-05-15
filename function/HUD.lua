@@ -80,7 +80,10 @@ function ProvinatusHUD:UpdateHUD()
       if self.Players[i] == nil then
         self.Players[i] = {}
         self.Players[i].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
-        self.Players[i].Icon:SetDrawLevel(3)
+      end
+      if not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden() then
+        self.Players[i].Icon:SetAlpha(0)
+        return
       end
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
