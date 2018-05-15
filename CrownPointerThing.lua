@@ -24,6 +24,16 @@ function CrownPointerThing:Initialize()
     EVENT_PLAYER_ACTIVATED,
     CrownPointerThing.EVENT_PLAYER_ACTIVATED
   )
+  EVENT_MANAGER:RegisterForEvent(
+    CrownPointerThing.name,
+    EVENT_START_SOUL_GEM_RESURRECTION,
+    CrownPointerThing.EVENT_START_SOUL_GEM_RESURRECTION
+  )
+  EVENT_MANAGER:RegisterForEvent(
+    CrownPointerThing.name,
+    EVENT_END_SOUL_GEM_RESURRECTION,
+    CrownPointerThing.EVENT_END_SOUL_GEM_RESURRECTION
+  )
 end
 
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
@@ -61,7 +71,6 @@ function CrownPointerThing.onUpdate()
   end
 
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
-  ProvinatusCompass:UpdateCompass()
   ProvinatusHUD:UpdateHUD()
 end
 
@@ -69,6 +78,14 @@ function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
   if addonName == CrownPointerThing.name then
     CrownPointerThing:Initialize()
   end
+end
+
+function CrownPointerThing.EVENT_START_SOUL_GEM_RESURRECTION (eventCode, durationMs)
+  CrownPointerThing.SoulGemResurrecting = true
+end
+
+function CrownPointerThing.EVENT_END_SOUL_GEM_RESURRECTION (eventCode)
+  CrownPointerThing.SoulGemResurrecting = false
 end
 
 EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_ADD_ON_LOADED, CrownPointerThing.EVENT_ADD_ON_LOADED)

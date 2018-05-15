@@ -35,7 +35,11 @@ local function GetIconTexture(UnitTag)
     Texture = "/esoui/art/lfg/lfg_" .. Role .. "_up.dds"
   else
     local Class = ClassMapping[GetUnitClassId(UnitTag)]
-    Texture = "esoui/art/contacts/social_classicon_" .. Class .. ".dds"
+    if Class == nil then
+      Texture = "/esoui/art/icons/mapkey/mapkey_groupmember.dds"
+    else
+      Texture = "esoui/art/contacts/social_classicon_" .. Class .. ".dds"
+    end
   end
   return Texture
 end
@@ -69,8 +73,9 @@ local function GetIconColor(UnitTag)
     end
   else
     local health, maxHealth, effectiveMaxHealth = GetUnitPower(UnitTag, POWERTYPE_HEALTH)
-    G = health / maxHealth
-    B = health / maxHealth
+    local ratio = health / maxHealth
+    G = ratio
+    B = ratio
   end
   return R, G, B
 end
@@ -79,17 +84,23 @@ function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
   end
+
+  ProvinatusCompass:UpdateCompass()
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
-    -- local IsLeader = IsUnitGroupLeader(UnitTag)
     if IsUnitOnline(UnitTag) and GetUnitName(UnitTag) ~= GetUnitName("player") then
       if self.Players[i] == nil then
         self.Players[i] = {}
         self.Players[i].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
       end
-      if not CrownPointerThing.SavedVars.HUD.Enabled then
+      if
+        (not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden()) and
+          not CrownPointerThing.SoulGemResurrecting and
+          self.Players[i] ~= nil and
+          self.Players[i].Icon ~= nil
+       then
         self.Players[i].Icon:SetAlpha(0)
-        return
+        break
       end
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
