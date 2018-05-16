@@ -80,6 +80,13 @@ local function GetIconColor(UnitTag)
   return R, G, B
 end
 
+local function GetLifeBarDimensions(UnitTag, IconX, IconY) 
+  local health, maxHealth, effectiveMaxHealth = GetUnitPower(UnitTag, POWERTYPE_HEALTH)
+  local ratio = health / maxHealth
+  -- TODO increase height based on IconY
+  return IconX / 2 * ratio, 2
+end
+
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
@@ -93,7 +100,9 @@ function ProvinatusHUD:UpdateHUD()
       if self.Players[i] == nil then
         self.Players[i] = {}
         self.Players[i].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
+        self.Players[i].LifeBar = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
       end
+      -- Hide UI elements if HUD not enabled or the reticle is hidden (unless we're resurrecting, which hides the reticle)
       if
         (not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden()) and
           not CrownPointerThing.SoulGemResurrecting and
@@ -101,8 +110,10 @@ function ProvinatusHUD:UpdateHUD()
           self.Players[i].Icon ~= nil
        then
         self.Players[i].Icon:SetAlpha(0)
+        self.Players[i].LifeBar:SetAlpha(0)
         break
       end
+
       local X, Y, Heading = GetMapPlayerPosition(UnitTag)
       local MyX, MyY, MyHeading = GetMapPlayerPosition("player")
       -- Horizontal distance to target
@@ -118,12 +129,22 @@ function ProvinatusHUD:UpdateHUD()
       -- Calculates where to draw on the screen.
       local XProjected = DistanceProjected * math.cos(Phi)
       local YProjected = DistanceProjected * math.sin(Phi)
+
+      -- Get icon dimensions
+      local IconX, IconY = GetIconDimensions(UnitTag)
+      local IconAlpha = GetIconAlpha(UnitTag)
+
       -- Need to flip the x axis.
       self.Players[i].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
       self.Players[i].Icon:SetTexture(GetIconTexture(UnitTag))
-      self.Players[i].Icon:SetAlpha(GetIconAlpha(UnitTag))
-      self.Players[i].Icon:SetDimensions(GetIconDimensions(UnitTag))
+      self.Players[i].Icon:SetAlpha(IconAlpha)
+      self.Players[i].Icon:SetDimensions(IconX, IconY)
       self.Players[i].Icon:SetColor(GetIconColor(UnitTag))
+
+      self.Players[i].LifeBar:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected + IconY / 4)
+      self.Players[i].LifeBar:SetAlpha(GetIconAlpha(UnitTag))
+      self.Players[i].LifeBar:SetDimensions(GetLifeBarDimensions(UnitTag, IconX, IconY))
+      self.Players[i].LifeBar:SetColor(1, 0, 0)
     end
   end
 
