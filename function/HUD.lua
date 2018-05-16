@@ -87,6 +87,14 @@ local function GetLifeBarDimensions(UnitTag, IconX, IconY)
   return IconX / 2 * ratio, 2
 end
 
+local function GetLifeBarAlpha(UnitTag)
+  local Alpha = GetIconAlpha(UnitTag)
+  if not IsUnitInCombat(UnitTag) then
+    Alpha = 0
+  end
+  return Alpha
+end
+
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
@@ -101,6 +109,7 @@ function ProvinatusHUD:UpdateHUD()
         self.Players[i] = {}
         self.Players[i].Icon = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
         self.Players[i].LifeBar = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
+        self.Players[i].LifeBar:SetColor(1, 0, 0)
       end
       -- Hide UI elements if HUD not enabled or the reticle is hidden (unless we're resurrecting, which hides the reticle)
       if
@@ -137,20 +146,20 @@ function ProvinatusHUD:UpdateHUD()
       -- Need to flip the x axis.
       self.Players[i].Icon:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected)
       self.Players[i].Icon:SetTexture(GetIconTexture(UnitTag))
-      self.Players[i].Icon:SetAlpha(IconAlpha)
       self.Players[i].Icon:SetDimensions(IconX, IconY)
       self.Players[i].Icon:SetColor(GetIconColor(UnitTag))
+      self.Players[i].Icon:SetAlpha(IconAlpha)
 
       self.Players[i].LifeBar:SetAnchor(CENTER, CrownPointerThingIndicator, CENTER, -XProjected, YProjected + IconY / 4)
-      self.Players[i].LifeBar:SetAlpha(GetIconAlpha(UnitTag))
       self.Players[i].LifeBar:SetDimensions(GetLifeBarDimensions(UnitTag, IconX, IconY))
-      self.Players[i].LifeBar:SetColor(1, 0, 0)
+      self.Players[i].LifeBar:SetAlpha(GetLifeBarAlpha(UnitTag))
     end
   end
 
   for i = GetGroupSize() + 1, #self.Players do
     if self.Players[i] ~= nil and self.Players[i].Icon ~= nil then
       self.Players[i].Icon:SetAlpha(0)
+      self.Players[i].LifeBar:SetAlpha(0)
     end
   end
 end
