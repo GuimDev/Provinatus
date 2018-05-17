@@ -38,6 +38,7 @@ reticles/elastic-arrows.lua
 
 function/Compass.lua
 function/HUD.lua
+function/PreHookHandlers.lua
 
 CrownPointerThing.lua
 CrownPointerThing.xml

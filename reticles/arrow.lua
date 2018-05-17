@@ -7,17 +7,25 @@ function ArrowReticle.Initialize()
   Arrow:SetTexture(CrownPointerThing.SavedVars.CrownPointer.Texture)
 end
 
+function ArrowReticle.SetHidden(ShouldHide)
+  if ShouldHide and not Arrow:IsHidden() then
+    Arrow:SetHidden(ShouldHide)
+  elseif CrownPointerThing.SavedVars.CrownPointer.Enabled then
+    Arrow:SetHidden(ShouldHide)
+  end
+end
+
 function ArrowReticle.UpdateTexture(DistanceToTarget, DX, DY, AngleToTarget, Linear, AbsoluteLinear)
   if not Arrow then
     return
   end
 
   if not CrownPointerThing.SavedVars.CrownPointer.Enabled then
-    Arrow:SetAlpha(0)
+    Arrow:SetHidden(true)
     return
   end
 
-  if IsUnitSoloOrGroupLeader("player") or ZO_ReticleContainer:IsHidden() or IsActiveWorldBattleground() then
+  if IsUnitSoloOrGroupLeader("player") or IsActiveWorldBattleground() then
     Arrow:SetAlpha(0)
     if not CrownPointerThing.SavedVars.Debug then
       return

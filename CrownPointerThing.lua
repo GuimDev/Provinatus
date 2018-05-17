@@ -19,6 +19,7 @@ function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
   ProvinatusCreateLAM2Panel()
   ProvinatusCompass:Initialize()
+  PreHookHandlers:Initialize()
   EVENT_MANAGER:RegisterForEvent(
     CrownPointerThing.name,
     EVENT_PLAYER_ACTIVATED,
@@ -42,13 +43,14 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
-  if not CrownPointerThing.SavedVars then return end
+  if not CrownPointerThing.SavedVars then
+    return
+  end
   local PlayerX, PlayerY, PlayerHeading = GetMapPlayerPosition("player")
   local TargetX, TargetY, TargetHeading = GetMapPlayerPosition(GetGroupLeaderUnitTag())
   local Heading = GetPlayerCameraHeading()
   local CrownTargetOverride =
-    CrownPointerThing.SavedVars.Debug and
-    CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
+    CrownPointerThing.SavedVars.Debug and CrownPointerThing.SavedVars.DebugSettings.CrownPositionOverride
 
   if CrownTargetOverride then
     TargetX = CrownPointerThing.SavedVars.DebugSettings.TargetX
@@ -80,11 +82,11 @@ function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
   end
 end
 
-function CrownPointerThing.EVENT_START_SOUL_GEM_RESURRECTION (eventCode, durationMs)
+function CrownPointerThing.EVENT_START_SOUL_GEM_RESURRECTION(eventCode, durationMs)
   CrownPointerThing.SoulGemResurrecting = true
 end
 
-function CrownPointerThing.EVENT_END_SOUL_GEM_RESURRECTION (eventCode)
+function CrownPointerThing.EVENT_END_SOUL_GEM_RESURRECTION(eventCode)
   CrownPointerThing.SoulGemResurrecting = false
 end
 

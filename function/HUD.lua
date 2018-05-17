@@ -95,6 +95,19 @@ local function GetLifeBarAlpha(UnitTag)
   return Alpha
 end
 
+function ProvinatusHUD:SetHidden(ShouldHide)
+  for i = 1, #self.Players do
+    if  self.Players[i] ~= nil then return end
+    if ShouldHide and not self.Players[i]:IsHidden() then
+      self.Players[i].Icon:SetHidden(ShouldHide)
+      self.Players[i].LifeBar:SetHidden(ShouldHide)
+    elseif CrownPointerThing.SavedVars.HUD.Enabled then
+      self.Players[i].Icon:SetHidden(ShouldHide)
+      self.Players[i].LifeBar:SetHidden(ShouldHide)
+    end
+  end
+end
+
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
@@ -111,15 +124,9 @@ function ProvinatusHUD:UpdateHUD()
         self.Players[i].LifeBar = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
         self.Players[i].LifeBar:SetColor(1, 0, 0)
       end
-      -- Hide UI elements if HUD not enabled or the reticle is hidden (unless we're resurrecting, which hides the reticle)
-      if
-        (not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden()) and
-          not CrownPointerThing.SoulGemResurrecting and
-          self.Players[i] ~= nil and
-          self.Players[i].Icon ~= nil
-       then
-        self.Players[i].Icon:SetAlpha(0)
-        self.Players[i].LifeBar:SetAlpha(0)
+      
+      if self.Players[i].Icon:IsHidden() then
+        -- No need to do anything on a hidden icon.
         break
       end
 

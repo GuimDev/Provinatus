@@ -15,9 +15,19 @@ function ProvinatusCompass:Initialize()
   self.CardinalPoints[4]:SetText(GetString(SI_COMPASS_WEST_ABBREVIATION))
 end
 
+function ProvinatusCompass:SetHidden(ShouldHide)
+  for i = 1, 4 do
+    if ShouldHide and not self.CardinalPoints[i]:IsHidden() then
+      self.CardinalPoints[i]:SetHidden(ShouldHide)
+    elseif CrownPointerThing.SavedVars.HUD.Compass.Enabled then
+      self.CardinalPoints[i]:SetHidden(ShouldHide)
+    end
+  end
+end
+
 function ProvinatusCompass:UpdateCompass()
   for i = 1, 4 do
-    if not CrownPointerThing.SavedVars.HUD.Enabled or ZO_ReticleContainer:IsHidden() and not CrownPointerThing.SoulGemResurrecting then
+    if not CrownPointerThing.SavedVars.HUD.Enabled then
       self.CardinalPoints[i]:SetAlpha(0)
     else
       local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()
