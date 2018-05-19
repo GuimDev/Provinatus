@@ -100,7 +100,7 @@ function ProvinatusHUD:SetHidden(ShouldHide)
     if self.Players[i] ~= nil then
       return
     end
-    if ShouldHide and not self.Players[i]:IsHidden() then
+    if ShouldHide and self.Players[i] ~= nil and not self.Players[i]:IsHidden() then
       self.Players[i].Icon:SetHidden(ShouldHide)
       self.Players[i].LifeBar:SetHidden(ShouldHide)
     elseif CrownPointerThing.SavedVars.HUD.Enabled then
@@ -109,7 +109,6 @@ function ProvinatusHUD:SetHidden(ShouldHide)
     end
   end
 end
-
 
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
