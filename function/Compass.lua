@@ -35,6 +35,7 @@ function ProvinatusCompass:UpdateCompass()
       self.CardinalPoints[i]:SetAlpha(0)
     else
       local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()
+      -- TODO will not rounding help smooth out the icon movement?
       local CardinalDirectionX = zo_round(CrownPointerThing.SavedVars.HUD.Size * math.cos(heading))
       local CardinalDirectionY = zo_round(CrownPointerThing.SavedVars.HUD.Size * math.sin(heading))
       CardinalDirectionY = CardinalDirectionY
