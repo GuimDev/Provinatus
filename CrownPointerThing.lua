@@ -43,6 +43,9 @@ function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
 end
 
 function CrownPointerThing.onUpdate()
+  -- TODO Move this call out of here
+  ProvinatusHUD:UpdateHUD()
+  
   if not CrownPointerThing.SavedVars then
     return
   end
@@ -73,7 +76,6 @@ function CrownPointerThing.onUpdate()
   end
 
   CrownPointerThing.reticle.UpdateTexture(DistanceTarget, DistanceX, DistanceY, Angle, Linear, AbsoluteLinear)
-  ProvinatusHUD:UpdateHUD()
 end
 
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)

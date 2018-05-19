@@ -80,7 +80,7 @@ local function GetIconColor(UnitTag)
   return R, G, B
 end
 
-local function GetLifeBarDimensions(UnitTag, IconX, IconY) 
+local function GetLifeBarDimensions(UnitTag, IconX, IconY)
   local health, maxHealth, effectiveMaxHealth = GetUnitPower(UnitTag, POWERTYPE_HEALTH)
   local ratio = health / maxHealth
   -- TODO increase height based on IconY
@@ -97,7 +97,9 @@ end
 
 function ProvinatusHUD:SetHidden(ShouldHide)
   for i = 1, #self.Players do
-    if  self.Players[i] ~= nil then return end
+    if self.Players[i] ~= nil then
+      return
+    end
     if ShouldHide and not self.Players[i]:IsHidden() then
       self.Players[i].Icon:SetHidden(ShouldHide)
       self.Players[i].LifeBar:SetHidden(ShouldHide)
@@ -108,6 +110,14 @@ function ProvinatusHUD:SetHidden(ShouldHide)
   end
 end
 
+function ProvinatusHUD:Foo() 
+  for key,value in pairs(ProvinatusHUD.Players) do
+    d(key, value.Icon:IsHidden(), "****")
+  end
+end 
+
+SLASH_COMMANDS["/zzz"] = ProvinatusHUD.Foo
+
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
@@ -117,6 +127,19 @@ function ProvinatusHUD:UpdateHUD()
   -- TODO update Crown Pointer from here also
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
+    -- If unit not online, not in group, unit is me, or unit in different zone then
+    -- hide icon and break out of this loop.
+    if
+      (not IsUnitOnline(UnitTag) or not IsPlayerInGroup(GetUnitName(UnitTag)) or
+        GetUnitName(UnitTag) == GetUnitName("player") or
+        GetUnitZone(UnitTag) ~= GetUnitZone("player")) and
+        self.Players[i] ~= nil
+     then
+      self.Players[i].Icon:SetAlpha(0)
+      self.Players[i].LifeBar:SetAlpha(0)
+      break
+    end
+
     if IsUnitOnline(UnitTag) and GetUnitName(UnitTag) ~= GetUnitName("player") then
       if self.Players[i] == nil then
         self.Players[i] = {}
@@ -124,7 +147,7 @@ function ProvinatusHUD:UpdateHUD()
         self.Players[i].LifeBar = WINDOW_MANAGER:CreateControl(nil, CrownPointerThingIndicator, CT_TEXTURE)
         self.Players[i].LifeBar:SetColor(1, 0, 0)
       end
-      
+
       if self.Players[i].Icon:IsHidden() then
         -- No need to do anything on a hidden icon.
         break
@@ -164,6 +187,7 @@ function ProvinatusHUD:UpdateHUD()
   end
 
   for i = GetGroupSize() + 1, #self.Players do
+    -- TODO only hide if not already hidden.
     if self.Players[i] ~= nil and self.Players[i].Icon ~= nil then
       self.Players[i].Icon:SetAlpha(0)
       self.Players[i].LifeBar:SetAlpha(0)

@@ -17,17 +17,20 @@ end
 
 function ProvinatusCompass:SetHidden(ShouldHide)
   for i = 1, 4 do
-    if ShouldHide and not self.CardinalPoints[i]:IsHidden() then
+    -- Should only be shown if HUD/Compass is enabled, player is in a group, and ShouldHide = false
+    -- Compass should be hidden all other times.
+    if CrownPointerThing.SavedVars.HUD.Enabled and IsUnitGrouped("player") then
       self.CardinalPoints[i]:SetHidden(ShouldHide)
-    elseif CrownPointerThing.SavedVars.HUD.Compass.Enabled then
-      self.CardinalPoints[i]:SetHidden(ShouldHide)
+    else
+      self.CardinalPoints[i]:SetHidden(true)
     end
   end
 end
 
 function ProvinatusCompass:UpdateCompass()
   for i = 1, 4 do
-    if not CrownPointerThing.SavedVars.HUD.Enabled then
+    -- don't show Compass if HUD/Compass  not enabled or player is not in a group.
+    if not CrownPointerThing.SavedVars.HUD.Enabled  and not IsUnitGrouped("player") then
       self.CardinalPoints[i]:SetAlpha(0)
     else
       local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()

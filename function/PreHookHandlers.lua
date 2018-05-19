@@ -5,7 +5,6 @@ function PreHookHandlers:Initialize()
     ZO_GameMenu_InGame,
     "OnShow",
     function()
-      d("ZO_GameMenu_InGame - OnShow")
       CrownPointerThing.reticle.SetHidden(true)
       ProvinatusCompass:SetHidden(true)
       ProvinatusHUD:SetHidden(true)
@@ -15,7 +14,6 @@ function PreHookHandlers:Initialize()
     ZO_GameMenu_InGame,
     "OnHide",
     function()
-      d("ZO_GameMenu_InGame - OnHide")
       CrownPointerThing.reticle.SetHidden(false)
       ProvinatusCompass:SetHidden(false)
       ProvinatusHUD:SetHidden(false)
@@ -25,7 +23,6 @@ function PreHookHandlers:Initialize()
     ZO_InteractWindow,
     "OnShow",
     function()
-      d("ZO_InteractWindow - OnShow")
       CrownPointerThing.reticle.SetHidden(true)
       ProvinatusCompass:SetHidden(true)
       ProvinatusHUD:SetHidden(true)
@@ -35,7 +32,6 @@ function PreHookHandlers:Initialize()
     ZO_InteractWindow,
     "OnHide",
     function()
-      d("ZO_InteractWindow - OnHide")
       CrownPointerThing.reticle.SetHidden(false)
       ProvinatusCompass:SetHidden(false)
       ProvinatusHUD:SetHidden(false)
@@ -45,7 +41,6 @@ function PreHookHandlers:Initialize()
     ZO_KeybindStripControl,
     "OnShow",
     function()
-      d("ZO_KeybindStripControl - OnShow")
       CrownPointerThing.reticle.SetHidden(true)
       ProvinatusCompass:SetHidden(true)
       ProvinatusHUD:SetHidden(true)
@@ -55,7 +50,6 @@ function PreHookHandlers:Initialize()
     ZO_KeybindStripControl,
     "OnHide",
     function()
-      d("ZO_KeybindStripControl - OnHide")
       CrownPointerThing.reticle.SetHidden(false)
       ProvinatusCompass:SetHidden(false)
       ProvinatusHUD:SetHidden(false)
@@ -65,7 +59,6 @@ function PreHookHandlers:Initialize()
     ZO_MainMenuCategoryBar,
     "OnShow",
     function()
-      d("ZO_MainMenuCategoryBar - OnShow")
       CrownPointerThing.reticle.SetHidden(true)
       ProvinatusCompass:SetHidden(true)
       ProvinatusHUD:SetHidden(true)
@@ -75,7 +68,6 @@ function PreHookHandlers:Initialize()
     ZO_MainMenuCategoryBar,
     "OnHide",
     function()
-      d("ZO_MainMenuCategoryBar - OnHide")
       CrownPointerThing.reticle.SetHidden(false)
       ProvinatusCompass:SetHidden(false)
       ProvinatusHUD:SetHidden(false)
