@@ -110,21 +110,21 @@ function ProvinatusHUD:SetHidden(ShouldHide)
   end
 end
 
-function ProvinatusHUD:Foo() 
-  for key,value in pairs(ProvinatusHUD.Players) do
-    d(key, value.Icon:IsHidden(), "****")
-  end
-end 
-
-SLASH_COMMANDS["/zzz"] = ProvinatusHUD.Foo
 
 function ProvinatusHUD:UpdateHUD()
   if not CrownPointerThing or not CrownPointerThing.SavedVars then
     return
   end
-
   ProvinatusCompass:UpdateCompass()
-  -- TODO update Crown Pointer from here also
+
+  if not IsUnitGrouped("player") and self.Players ~= nil then
+    for key, value in pairs(self.Players) do
+      value.Icon:SetAlpha(0)
+    end
+
+    return
+  end
+
   for i = 1, GetGroupSize() do
     local UnitTag = "group" .. i
     -- If unit not online, not in group, unit is me, or unit in different zone then

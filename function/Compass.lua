@@ -30,7 +30,8 @@ end
 function ProvinatusCompass:UpdateCompass()
   for i = 1, 4 do
     -- don't show Compass if HUD/Compass  not enabled or player is not in a group.
-    if not CrownPointerThing.SavedVars.HUD.Enabled  and not IsUnitGrouped("player") then
+    -- TODO dont set alpha to 0 if it is already 0
+    if not CrownPointerThing.SavedVars.HUD.Enabled or not IsUnitGrouped("player") then
       self.CardinalPoints[i]:SetAlpha(0)
     else
       local heading = (i - 2) * math.pi / 2 + GetPlayerCameraHeading()
