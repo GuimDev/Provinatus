@@ -1,6 +1,6 @@
 CrownPointerThing = {}
 
-CrownPointerThing.name = ProvTF.name
+CrownPointerThing.name = "Provinatus"
 
 CrownPointerThing.reticle = ArrowReticle
 
@@ -15,6 +15,19 @@ local function NormalizeAngle(c)
   return c
 end
 
+local function IsAddonRunning(addonName)
+  local manager = GetAddOnManager()
+  local result = false
+  for i = 1, manager:GetNumAddOns() do
+    local name, _, _, _, _, state = manager:GetAddOnInfo(i)
+    if name == addonName and state == ADDON_STATE_ENABLED then
+        result = true
+    end
+  end
+  d("result", result)
+  return result
+end
+
 function CrownPointerThing:Initialize()
   CrownPointerThing.SavedVars = ZO_SavedVars:NewAccountWide("CrownPointerThingSavedVariables", 1, nil, ProvinatusConfig)
   EVENT_MANAGER:RegisterForEvent(
@@ -27,6 +40,7 @@ end
 function CrownPointerThing.EVENT_PLAYER_ACTIVATED(eventCode, initial)
   CrownPointerThingIndicator:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   CrownPointerThing.reticle.Initialize()
+  d(IsAddonRunning("ProvisionsTeamFormation"))
 end
 
 function CrownPointerThing.onUpdate()
@@ -49,5 +63,11 @@ end
 function CrownPointerThing.EVENT_ADD_ON_LOADED(event, addonName)
   if addonName == CrownPointerThing.name then
     CrownPointerThing:Initialize()
+    d("ProvTF", ProvTF)
+    if ProvTF == nil then
+      foo = "ProvTF"
+    end
   end
 end
+
+EVENT_MANAGER:RegisterForEvent(CrownPointerThing.name, EVENT_ADD_ON_LOADED, CrownPointerThing.EVENT_ADD_ON_LOADED)

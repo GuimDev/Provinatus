@@ -1,47 +1,44 @@
 ﻿## Title: |c00C000Provinatus|r {{**DEVELOPMENTVERSION**}}
 ## Description: Adds a pointer to crown to Provisions Team Formation.
 ## Author: |c00C000Provision|r & |cFF69B4AlbinoPython|r
-## SavedVariables: ProvTFSV CrownPointerThingSavedVariables
-## OptionalDependsOn: LibStub LibAddonMenu-2.0 ProvisionsTeamFormation
+## SavedVariables: CrownPointerThingSavedVariables
+## OptionalDependsOn: LibAddonMenu ProvisionsTeamFormation
 ## APIVersion: 100023
 ## Version: {{**DEVELOPMENTVERSION**}}
 
 ; LibAddonMenu-2.0 r26 : A library to aid in the creation of option panels.
-lib/ESO-LibAddonMenu/LibStub/LibStub.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/panel.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/submenu.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/button.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/checkbox.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/colorpicker.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/custom.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/description.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/dropdown.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/editbox.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/header.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/slider.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/texture.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/iconpicker.lua
-lib/ESO-LibAddonMenu/LibAddonMenu-2.0/controls/divider.lua
+lib/LibAddonMenu-2.0/LibStub/LibStub.lua
+lib/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+lib/LibAddonMenu-2.0/controls/panel.lua
+lib/LibAddonMenu-2.0/controls/submenu.lua
+lib/LibAddonMenu-2.0/controls/button.lua
+lib/LibAddonMenu-2.0/controls/checkbox.lua
+lib/LibAddonMenu-2.0/controls/colorpicker.lua
+lib/LibAddonMenu-2.0/controls/custom.lua
+lib/LibAddonMenu-2.0/controls/description.lua
+lib/LibAddonMenu-2.0/controls/dropdown.lua
+lib/LibAddonMenu-2.0/controls/editbox.lua
+lib/LibAddonMenu-2.0/controls/header.lua
+lib/LibAddonMenu-2.0/controls/slider.lua
+lib/LibAddonMenu-2.0/controls/texture.lua
+lib/LibAddonMenu-2.0/controls/iconpicker.lua
+lib/LibAddonMenu-2.0/controls/divider.lua
 ; END
 
-; TeamFormation
-;lang/en.lua
-;lang/$(language).lua
-
 config.lua
-;header.lua
-
 reticles/arrow.lua
 ;reticles/elastic-arrows.lua
 CrownPointerThing.lua
 CrownPointerThing.xml
 
-;function/Error.lua
-;function/Color.lua
-;function/LAM2Panel.lua
-;function/uiLoop.lua
-;TeamFormation.lua
-;TeamFormation.xml
-;
-;Bindings.xml
+; TeamFormation
+lib/ProvisionsTeamFormation/header.lua
+lib/ProvisionsTeamFormation/lang/en.lua
+lib/ProvisionsTeamFormation/lang/$(language).lua
+lib/ProvisionsTeamFormation/function/Error.lua
+lib/ProvisionsTeamFormation/function/Color.lua
+lib/ProvisionsTeamFormation/function/LAM2Panel.lua
+lib/ProvisionsTeamFormation/function/uiLoop.lua
+lib/ProvisionsTeamFormation/TeamFormation.lua
+lib/ProvisionsTeamFormation/TeamFormation.xml
+lib/ProvisionsTeamFormation/Bindings.xml
